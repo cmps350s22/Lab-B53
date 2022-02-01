@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid red;
+    margin: 2px;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+.sub-img {
+    height: 200px;
+}
+
+.container {
+    display: grid;
+    height: 100%;
+    grid-template-rows: 0.15fr 0.25fr auto 0.1fr;
+}
+header{
+    text-transform: uppercase;
+}
+span{
+    color: red;
+
+}
+header {
+    display: grid;
+    place-items: center;
+}
+
+nav {
+    background-color: orange;
+    text-align: center;
+}
+ul li{
+    list-style: none;
+    margin: 10px;
+    font-size: 1.5rem;
+}
+nav a{
+    color: white;
+    text-decoration: none;
+}
