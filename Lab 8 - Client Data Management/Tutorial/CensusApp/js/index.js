@@ -1,14 +1,18 @@
 import {CensusRepo} from "./repository/census-repo.js";
+
 const repo = new CensusRepo()
 
 const form = document.querySelector('#form')
 const noOfRows = document.querySelector('#noOfRows')
 const countriesTable = document.querySelector('#countries')
 
-form.addEventListener('submit' , addCensus)
 
-window.onload = async ()=>{
+form.addEventListener('submit', addCensus)
+noOfRows.addEventListener('change', showCensusData)
+
+window.onload = async () => {
     await showCensusData();
+    window.deleteCensus = deleteCensus
 }
 
 async function showCensusData() {
@@ -26,6 +30,7 @@ async function showCensusData() {
         </tr>
     `
 }
+
 function censusToHTMLRow(census) {
     return `
         <tr>
@@ -33,23 +38,30 @@ function censusToHTMLRow(census) {
             <td>${census.population}</td>
             <td>
                 <i class="fa fa-edit">Edit</i>
-                <i class="fa fa-trash">Delete</i>
+                <i class="fa fa-trash" onclick="deleteCensus('${census.id}')">Delete</i>
             </td>
         </tr>
     
     `
 }
 
-function addCensus(e) {
+async function addCensus(e) {
     e.preventDefault()
     console.log(e.target)
 
     const census = formToObject(e.target)
     census.id = Date.now().toString()
     //call the add method of the repsitory
-    repo.addCensus(census)
     form.reset()
 
+    await repo.addCensus(census)
+    await showCensusData()
+
+}
+
+async function deleteCensus(id) {
+    await repo.deleteCensus(id)
+    await showCensusData()
 }
 
 function formToObject(form) {
