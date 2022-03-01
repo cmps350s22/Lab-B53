@@ -14,6 +14,30 @@ window.onload = async ()=>{
 async function showCensusData() {
     const censuses = await repo.getCensuses(parseInt(noOfRows.value));
     console.log(censuses)
+    const censusHTMLRows = censuses.map(census => censusToHTMLRow(census)).join()
+    countriesTable.innerHTML = `
+        <tr>
+            <td>Country</td>
+            <td>Population</td>
+            <td>Action</td>
+        </tr>
+        <tr>
+            ${censusHTMLRows}
+        </tr>
+    `
+}
+function censusToHTMLRow(census) {
+    return `
+        <tr>
+            <td>${census.country}</td>
+            <td>${census.population}</td>
+            <td>
+                <i class="fa fa-edit">Edit</i>
+                <i class="fa fa-trash">Delete</i>
+            </td>
+        </tr>
+    
+    `
 }
 
 function addCensus(e) {
