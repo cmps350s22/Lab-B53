@@ -1,24 +1,27 @@
 import {CensusRepo} from "./repository/census-repo.js";
 
+let isEditMode = false
 const repo = new CensusRepo()
 
 const form = document.querySelector('#form')
 const noOfRows = document.querySelector('#noOfRows')
 const countriesTable = document.querySelector('#countries')
+const addBtn = document.querySelector('#add-btn')
 
 
-form.addEventListener('submit', addCensus)
+form.addEventListener('submit', submitCensus)
 noOfRows.addEventListener('change', showCensusData)
 
 window.onload = async () => {
     await showCensusData();
     window.deleteCensus = deleteCensus
+    window.updateCensus = updateCensus
 }
 
 async function showCensusData() {
     const censuses = await repo.getCensuses(parseInt(noOfRows.value));
     console.log(censuses)
-    const censusHTMLRows = censuses.map(census => censusToHTMLRow(census)).join()
+    const censusHTMLRows = censuses.map(census => censusToHTMLRow(census)).join(' ')
     countriesTable.innerHTML = `
         <tr>
             <td>Country</td>
@@ -37,7 +40,7 @@ function censusToHTMLRow(census) {
             <td>${census.country}</td>
             <td>${census.population}</td>
             <td>
-                <i class="fa fa-edit">Edit</i>
+                <i class="fa fa-edit" onclick="updateCensus('${census.id}')">Edit</i>
                 <i class="fa fa-trash" onclick="deleteCensus('${census.id}')">Delete</i>
             </td>
         </tr>
@@ -45,18 +48,32 @@ function censusToHTMLRow(census) {
     `
 }
 
-async function addCensus(e) {
+async function submitCensus(e) {
     e.preventDefault()
-    console.log(e.target)
 
     const census = formToObject(e.target)
-    census.id = Date.now().toString()
-    //call the add method of the repsitory
-    form.reset()
 
-    await repo.addCensus(census)
+    if (isEditMode) {
+        await repo.updateCensus(census)
+        isEditMode = false
+        addBtn.value = 'Add'
+    }
+    else {
+        census.id = Date.now().toString()
+        await repo.addCensus(census)
+    }
+    form.reset()
     await showCensusData()
 
+}
+
+async function updateCensus(id) {
+    const census = await repo.getCensus(id)
+    document.querySelector('#country').value = census.country
+    document.querySelector('#population').value = census.population
+    document.querySelector('#id').value = census.id
+    isEditMode = true
+    addBtn.value = 'Update'
 }
 
 async function deleteCensus(id) {

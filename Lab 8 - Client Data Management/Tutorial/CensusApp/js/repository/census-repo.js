@@ -17,7 +17,7 @@ export class CensusRepo {
     updateCensus(updateCensus) {
         try {
             return db.collection('censuses')
-                .doc({id: census.id})
+                .doc({id: updateCensus.id})
                 .update(updateCensus)
         } catch (e) {
             console.log(e)
