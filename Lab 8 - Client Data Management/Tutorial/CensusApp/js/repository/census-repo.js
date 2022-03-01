@@ -1,30 +1,27 @@
+//initialize the database using localbase
 const db = new Localbase('census.db')
 
 export class CensusRepo {
 
-    //Indexed DB
-    //Adding
+    //add census
     addCensus(census) {
         try {
-            return db.collection('censuses')
-                .add(census)
+            return db.collection('censuses').add(census)
         } catch (e) {
             console.log(e)
         }
     }
 
-    //updating*/
-    updateCensus(updateCensus) {
+    //update census
+    updateCensus(census) {
         try {
-            return db.collection('censuses')
-                .doc({id: updateCensus.id})
-                .update(updateCensus)
+            return db.collection('censuses').doc({id: census.id}).update(census)
         } catch (e) {
             console.log(e)
         }
     }
 
-    //deleting*/
+    //delete census
     deleteCensus(id) {
         try {
             return db.collection('censuses').doc({id}).delete()
@@ -33,7 +30,7 @@ export class CensusRepo {
         }
     }
 
-    //finding specific document(census)*/
+    //get census by id
     getCensus(id) {
         try {
             return db.collection('censuses').doc({id}).get()
@@ -42,12 +39,30 @@ export class CensusRepo {
         }
     }
 
-    //querying all the census of all countries
+    //get all censuses
     getCensuses(noOfRecords) {
         try {
+            if(noOfRecords == 'ALl')
+                return db.collection('censuses').get()
             return db.collection('censuses').limit(noOfRecords).get()
         } catch (e) {
             console.log(e)
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
