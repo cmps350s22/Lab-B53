@@ -6,15 +6,17 @@ const port = process.env.PORT || 3000
 //http://localhost:3000/api/accounts
 //http://localhost:3000/api/accounts?type=current
 
+app.get('/api/accounts/:acctNo',(req, res)=>{
+    res.send(req.params)
+})
+
 app.get('/api/accounts', (req, res) => {
     const query = req.query
     // res.send('this route will return all the accounts')
     res.send(req.query)
 })
 
-app.get('/api/accounts/:acctNo',(req, res)=>{
-    res.send(req.params)
-})
+
 
 app.listen(port, () => {
     console.log(`server started on http://localhost:${port}`)
