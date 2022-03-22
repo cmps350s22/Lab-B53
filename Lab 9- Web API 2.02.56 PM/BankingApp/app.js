@@ -18,7 +18,7 @@ app.delete('/api/accounts/:acctNo',(req, res)=>{
 })
 
 app.listen(port, () => {
-    console.log(`server started on http://localhost:${port}`)
+    console.log(`Server started on http://localhost:${port}`)
 })
 
 /*
@@ -34,5 +34,9 @@ app.listen(port, () => {
     4. install nodemon [only once in the entire semester]
     npm i -g nodemon    [window user]
     sudo npm i -g nodemon [mac users]
+
+    5. run the application using
+    nodemon
+    nodemon app.js
 
  */
