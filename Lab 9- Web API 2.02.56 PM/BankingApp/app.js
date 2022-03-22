@@ -3,22 +3,10 @@ import express from 'express';
 const app = express();
 const port = process.env.PORT || 3000
 
-app.get('/api/accounts', (req, res) => {
-    const query = req.query
-    // res.send('this route will return all the accounts')
-    res.send(`getting accounts of type ${req.query.type}`)
-})
-
-app.get('/api/accounts/:acctNo',(req, res)=>{
-    res.send(`getting single account with account no ${req.params.acctNo}`)
-})
-
-app.delete('/api/accounts/:acctNo',(req, res)=>{
-    res.send(`deleting ${req.params.acctNo}`)
-})
+app.use(express.static('public'))
 
 app.listen(port, () => {
-    console.log(`Server started on http://localhost:${port}`)
+    console.log(`server started on http://localhost:${port}`)
 })
 
 /*
@@ -37,6 +25,7 @@ app.listen(port, () => {
 
     5. run the application using
     nodemon
+    OR
     nodemon app.js
 
  */
