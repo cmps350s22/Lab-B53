@@ -22,7 +22,7 @@ const accounts = [
 
 router.use(express.json())
 //http://localhost.:3000/api/accounts?type=Saving
-router.get('/api/accounts', (req, res) => {
+router.get('/accounts', (req, res) => {
     const acctType = req.query.type
     if (acctType) {
         const filteredAccounts = accounts.filter(account => account.acctType == acctType)
@@ -32,21 +32,21 @@ router.get('/api/accounts', (req, res) => {
         res.json(accounts)
 })
 
-router.post('/api/accounts', (req, res) => {
+router.post('/accounts', (req, res) => {
     // res.send('this route will add an account')
     res.json(req.body)
 })
 
-router.put('/api/accounts', (req, res) => {
+router.put('/accounts', (req, res) => {
     // res.send('this route will update accounts')
     res.json(req.body)
 })
 
-router.get('/api/accounts/:acctNo', (req, res) => {
+router.get('/accounts/:acctNo', (req, res) => {
     res.send(`getting single account with account no ${req.params.acctNo}`)
 })
 
-router.delete('/api/accounts/:acctNo', (req, res) => {
+router.delete('/accounts/:acctNo', (req, res) => {
     res.send(`deleting ${req.params.acctNo}`)
 })
 
