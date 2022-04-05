@@ -12,7 +12,7 @@ export default class AccountRepo {
 
     //Get account by accountNo
     getAccount(accountNo) {
-        return Account.find({_id: accountNo})
+        return Account.findOne({_id: accountNo})
     }
 
     addAccount(account) {
@@ -26,23 +26,47 @@ export default class AccountRepo {
     async updateAccount(account) {
         return Account.findByIdAndUpdate(account.acctNo, account)
     }
+
     async addTransaction(transaction) {
+
         const account = await this.getAccount(transaction.acctNo)
-        if(transaction.transType === 'Withdraw')
-            account.balance -= parseInt(transaction.amount)
+        if (transaction.transType === 'Withdraw')
+            account.balance -= parseInt(transaction.amount.toString())
         else
-            account.balance += parseInt(transaction.amount)
+            account.balance += parseInt(transaction.amount.toString())
 
         await account.save()
         return Transaction.create(transaction)
     }
 
     async getTransactions() {
-        return Transaction.find()
+        return Transaction.find().populate('acctNo')
     }
 
     async getStats() {
-
+        return Account.aggregate(
+            [
+                {
+                    '$group': {
+                        '_id': '$acctType',
+                        'TotalBalance': {
+                            '$sum': '$balance'
+                        },
+                        'TotalNumberOfAccounts': {
+                            '$sum': 1
+                        }
+                    }
+                },
+                {
+                    '$sort': {
+                        'TotalBalance': 1
+                    }
+                },
+                {
+                    '$limit': 1
+                }
+            ]
+        )
     }
 
     async sumBalance() {
