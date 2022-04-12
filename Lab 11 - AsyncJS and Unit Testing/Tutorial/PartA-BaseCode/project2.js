@@ -26,18 +26,38 @@ function getCourses(cb)
 
 import fs from 'fs'
 
+//macdonald
+
+function setCourseStudents(courses, cb) {
+    fs.readFile('data/student.json', (err, data) => {
+        if (!err) {
+            const students = JSON.parse(data)
+            for (const course of courses) {
+                //crn and courseIds
+               course.students = students
+                   .filter(student => student.courseIds.includes(course.crn))
+                   .map(student => `${student.firstname} ${student.lastname}`)
+            }
+           cb(null, courses)
+        } else
+            cb(err, null)
+    })
+}
 function setInstructorNames(courses, cb) {
     fs.readFile('data/staff.json', (err, data) => {
         if (!err) {
             const staffs = JSON.parse(data)
             for (const course of courses) {
-                const instructor =
-                course.instructor = instructor.firname
+                const {firstname, lastname} = staffs.find(staff => staff.staffNo == course.instructorId)
+                course.instructor = `${firstname} ${lastname}`
             }
+            setCourseStudents(courses, cb)
         } else
             cb(err, null)
     })
 }
+
+//Starbucks
 function getCourses(cb) {
     fs.readFile('data/course.json', (err, data) => {
         if (!err) {
@@ -53,3 +73,18 @@ getCourses((err, data) => {
     if (!err) console.log(data)
     else console.log(err)
 })
+
+console.log('hello this code willnot be blocked')
+
+
+
+
+
+
+
+
+
+
+
+
+
