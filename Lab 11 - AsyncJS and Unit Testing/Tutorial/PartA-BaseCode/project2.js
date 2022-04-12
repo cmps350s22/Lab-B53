@@ -10,3 +10,36 @@ function getCourses(cb)
 
  */
 
+// {
+//     "crn": 107,
+//     "courseCode": "GENG 107",
+//     "courseName": "Engineering Skills and Ethics",
+//     "semester": "Fall 2015",
+//     "instructorId": 3,
+//     "instructor": "Mohamed Alrazi",
+//     "students": [
+//         "Fn1 Ln1",
+//         "Fn2 Ln2",
+//         "Fn3 Ln1",
+//     ]
+// },
+
+import fs from 'fs'
+
+function setInstructorNames(courses, cb) {
+
+}
+function getCourses(cb) {
+    fs.readFile('data/course.json', (err, data) => {
+        if (!err) {
+            const courses = JSON.parse(data)
+            setInstructorNames(courses, cb)
+        } else
+            cb(err, null)
+    })
+}
+
+getCourses((err, data) => {
+    if (!err) console.log(data)
+    else console.log(err)
+})
