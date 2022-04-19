@@ -28,7 +28,7 @@ export default class CourseService {
 
     async renderIndex(req, res) {
         try {
-            res.render('index')
+            res.render('index',{title: 'Index'})
         } catch (e) {
             res.send(500).send(e);
         }
@@ -36,7 +36,16 @@ export default class CourseService {
 
     async renderCourses(req, res) {
         try {
-            res.render('courses')
+            const programs = await  courseRepository.getPrograms()
+
+            res.render('courses' , {title : 'Courses' , programs})
+        } catch (e) {
+            res.send(500).send(e);
+        }
+    }
+    async renderStudents(req, res) {
+        try {
+            res.render('students' , {title : 'Students'})
         } catch (e) {
             res.send(500).send(e);
         }

@@ -6,6 +6,7 @@ const router = express.Router()
 //Render
 router.get('/',courseService.renderIndex)
 router.get('/courses',courseService.renderCourses)
+router.get('/students',courseService.renderStudents)
 
 //API end points
 router.get('/api/programs',courseService.getPrograms);
