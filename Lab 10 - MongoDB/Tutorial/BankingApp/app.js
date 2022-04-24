@@ -22,6 +22,7 @@ app.use(express.static('public'))
 //a middleware
 app.use(morgan('dev'))
 app.use(express.json())
+
 app.use('/api', router)
 
 //CRUD operations on

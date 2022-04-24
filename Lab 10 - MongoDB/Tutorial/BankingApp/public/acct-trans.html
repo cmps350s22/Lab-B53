@@ -1,10 +1,11 @@
 <h3>Add Transaction</h3>
 <form id="trans-form">
     <label for="acctNo">Account No</label>
-    <select name="acctNo" id="acctNo" required>
-        <option></option>
-    </select>
-
+   {{each accounts as |account|}}
+        <select name="acctNo" id="acctNo" required>
+            <option></option>
+        </select>
+    {{/each}}
     <lablel for="type">Transaction Type</lablel>
     <select name="transType" id="transType" required>
         <option></option>
